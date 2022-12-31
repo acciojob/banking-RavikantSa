@@ -17,14 +17,21 @@ public class BankAccount {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public double getMinBalance() {
         return minBalance;
+    }
+
+    public void setMinBalance(double minBalance) {
+        this.minBalance = minBalance;
     }
 
     public double getBalance() {
         return balance;
     }
-
     public void setBalance(double balance) {
         this.balance = balance;
     }
@@ -33,13 +40,24 @@ public class BankAccount {
         //Each digit of an account number can lie between 0 and 9 (both inclusive)
         //Generate account number having given number of 'digits' such that the sum of digits is equal to 'sum'
         //If it is not possible, throw "Account Number can not be generated" exception
-        if(sum >= 0 && sum <= 90){
-            // 37 --> 9 + 9 + 9 + 9 + 1
-            return "99991";
+//        if(sum >= 0 && sum <= 90){
+//            // 37 --> 9 + 9 + 9 + 9 + 1
+//            return "99991";
+//        }
+//        else{
+//            return "Account Number can not be generated";
+//        }
+        int s=0;
+        while(digits !=0){
+            int digit=digits%10;
+            s+=digit;
+            digits=digits/10;
         }
-        else{
-            return "Account Number can not be generated";
+        if(s!=sum){
+            throw new Exception("Account Number can not be generated");
         }
+
+        return String.valueOf(digits);
 
 //        return null;
     }
@@ -47,23 +65,29 @@ public class BankAccount {
     public void deposit(double amount) {
         //add amount to balance
 
-            setBalance(getBalance() + amount);
+        this.balance += amount;
+        System.out.println("You have deposit " +amount +" to your account." + "\n" +
+                "Balance is now: " +this.balance);
     }
 
 
     public void withdraw(double amount) throws Exception {
         // Remember to throw "Insufficient Balance" exception, if the remaining amount would be less than minimum balance
-        if( amount < getBalance()){
-            Exception e;
+        try
+        {
+            if(balance >= amount)
+            {
+                balance = balance - amount;
+                System.out.println("Amount Withdrawn");
+            }
+            else
+            {
+                throw new Exception("Insufficient Amount : Could not Withdraw");
+            }
         }
-        else {
-            setBalance(getBalance() - amount);
-        }
-        try {
-
-        }
-        catch ( Exception e){
-
+        catch(Exception e)
+        {
+            e.printStackTrace();
         }
 
     }
